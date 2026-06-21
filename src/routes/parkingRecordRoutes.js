@@ -13,5 +13,10 @@ router.post(
   authenticate,
   parkingRecordController.vehicleEntry
 );
+router.post(
+  "/exit",
+  authenticate,
+  parkingRecordController.vehicleExit
+);
 
 module.exports = router;
