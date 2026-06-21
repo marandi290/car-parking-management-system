@@ -1,11 +1,27 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-const parkingSlotController = require('../controllers/parkingSlotController');
-const authenticate =
-  require("../middlewares/authMiddleware");
 
-const authorize =
-  require("../middlewares/roleMiddleware");
+const parkingSlotController = require("../controllers/parkingSlotController");
+const authenticate = require("../middlewares/authMiddleware");
+const authorize = require("../middlewares/roleMiddleware");
+
+router.get(
+  "/",
+  authenticate,
+  parkingSlotController.getParkingSlots
+);
+
+router.get(
+  "/available",
+  authenticate,
+  parkingSlotController.getAvailableSlots
+);
+
+router.get(
+  "/:id",
+  authenticate,
+  parkingSlotController.getParkingSlotById
+);
 
 router.post(
   "/",
@@ -14,10 +30,18 @@ router.post(
   parkingSlotController.createParkingSlot
 );
 
-router.get('/', parkingSlotController.getParkingSlots);
-router.get('/available', parkingSlotController.getAvailableSlots);
-router.get('/:id', parkingSlotController.getParkingSlotById);
-router.put('/:id', parkingSlotController.updateParkingSlot);
-router.delete('/:id', parkingSlotController.deleteParkingSlot);
+router.put(
+  "/:id",
+  authenticate,
+  authorize("admin"),
+  parkingSlotController.updateParkingSlot
+);
+
+router.delete(
+  "/:id",
+  authenticate,
+  authorize("admin"),
+  parkingSlotController.deleteParkingSlot
+);
 
 module.exports = router;

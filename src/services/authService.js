@@ -3,7 +3,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/User");
 
 const registerUser = async (userData) => {
-  const { name, email, password } = userData;
+  const { name, email, password, role } = userData;
 
   const existingUser = await User.findOne({
     where: { email },
@@ -19,6 +19,7 @@ const registerUser = async (userData) => {
     name,
     email,
     password: hashedPassword,
+    role,
   });
 };
 

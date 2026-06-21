@@ -1,7 +1,6 @@
 const app = require("./app");
 const sequelize = require("./config/database");
-const User = require("./models/User");
-const ParkingSlot = require("./models/ParkingSlot");
+require("./models");
 require("dotenv").config();
 
 const PORT = process.env.PORT || 5000;
@@ -12,7 +11,7 @@ async function startServer() {
 
     console.log("Database Connected Successfully");
 
-    await sequelize.sync({ alter: true });
+    await sequelize.sync();
 
     console.log("Database Synced");
 

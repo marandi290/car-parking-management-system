@@ -2,6 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const authRoutes = require("./routes/authRoutes");
 const parkingSlotRoutes = require("./routes/parkingSlotRoutes");
+const vehicleRoutes = require("./routes/vehicleRoutes");
+const parkingRecordRoutes =
+  require("./routes/parkingRecordRoutes");
 
 const app = express();
 
@@ -17,5 +20,7 @@ app.get("/", (req, res) => {
 
 app.use("/api/auth", authRoutes);
 app.use("/api/slots", parkingSlotRoutes);
+app.use("/api/vehicles", vehicleRoutes);
+app.use("/api/parking", parkingRecordRoutes);
 
 module.exports = app;

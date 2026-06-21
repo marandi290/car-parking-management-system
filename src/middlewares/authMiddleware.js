@@ -9,7 +9,8 @@ const authenticate = (req, res, next) => {
       !authHeader.startsWith("Bearer ")
     ) {
       return res.status(401).json({
-        message: "Access denied",
+        success: false,
+        message: "Access denied. Token missing or invalid.",
       });
     }
 
@@ -25,6 +26,7 @@ const authenticate = (req, res, next) => {
     next();
   } catch (error) {
     return res.status(401).json({
+      success: false,
       message: "Invalid token",
     });
   }
