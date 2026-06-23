@@ -29,11 +29,12 @@ const parkVehicle = async (vehicleId) => {
   const slot = await ParkingSlot.findOne({
     where: {
       status: "available",
+      slotType: vehicle.vehicleType,
     },
   });
 
   if (!slot) {
-    throw new Error("No parking slots available");
+    throw new Error(`No available ${vehicle.vehicleType} slot found`);
   }
 
   // Create parking record
@@ -71,7 +72,7 @@ const vehicleExit = async (vehicleId) => {
 
   const exitTime = new Date();
 
-  const result = calculateFee(vehicle.type, record.entryTime, exitTime);
+  const result = calculateFee(vehicle.vehicleType, record.entryTime, exitTime);
 
   await record.update({
     exitTime,
