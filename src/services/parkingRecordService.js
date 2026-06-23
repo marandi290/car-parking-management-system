@@ -1,6 +1,7 @@
 const ParkingRecord = require("../models/ParkingRecord");
 const ParkingSlot = require("../models/ParkingSlot");
 const Vehicle = require("../models/Vehicle");
+const calculateFee = require("../utils/feeCalculator");
 
 const parkVehicle = async (vehicleId) => {
     // Check if vehicle is already parked
@@ -62,18 +63,19 @@ const vehicleExit = async (vehicleId) => {
     throw new Error("Active parking record not found");
   }
 
+  const vehicle = await Vehicle.findByPk(vehicleId);
+
+  if (!vehicle) {
+    throw new Error("Vehicle not found");
+  }
+
   const exitTime = new Date();
 
-  const hours = Math.ceil(
-    (exitTime - record.entryTime) /
-      (1000 * 60 * 60)
-  );
-
-  const fee = hours * 20;
+  const result = calculateFee(vehicle.type, record.entryTime, exitTime);
 
   await record.update({
     exitTime,
-    fee,
+    fee: result.totalFee,
     status: "completed",
   });
 

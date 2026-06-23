@@ -5,6 +5,9 @@ const parkingSlotController = require("../controllers/parkingSlotController");
 const authenticate = require("../middlewares/authMiddleware");
 const authorize = require("../middlewares/roleMiddleware");
 
+const {parkingSlotValidator} = require("../validators/parkingSlotValidator");
+const validate = require("../middlewares/validationMiddleware");
+
 router.get(
   "/",
   authenticate,
@@ -27,6 +30,8 @@ router.post(
   "/",
   authenticate,
   authorize("admin"),
+  parkingSlotValidator,
+  validate,
   parkingSlotController.createParkingSlot
 );
 
@@ -34,6 +39,8 @@ router.put(
   "/:id",
   authenticate,
   authorize("admin"),
+  parkingSlotValidator,
+  validate,
   parkingSlotController.updateParkingSlot
 );
 
